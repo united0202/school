@@ -1,19 +1,49 @@
-import {FC} from "react";
 import './Header.scss'
-import {AppBar, Box, Button, IconButton, Toolbar, Typography} from "@mui/material";
 
-export const Header: FC = () => {
+import React, {FC} from "react";
+import {AppBar, Box, IconButton, Toolbar, Typography, useTheme} from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
+import {ColorModeContext} from "../../App";
+import Brightness4OutlinedIcon from '@mui/icons-material/Brightness4Outlined';
+import Brightness5OutlinedIcon from '@mui/icons-material/Brightness5Outlined';
+import {SIDEBAR_WIDTH} from "../../config";
+import {useNavigate} from "react-router-dom";
+
+interface IHeaderProps {
+	onOpen: (isOpen: boolean) => void;
+	isOpen: boolean;
+}
+
+export const Header: FC<IHeaderProps> = ({onOpen, isOpen}) => {
+	const theme = useTheme();
+	const navigate = useNavigate();
+	const colorMode = React.useContext(ColorModeContext);
+
 	return (
-		<Box sx={{flexGrow: 1}}>
+		<Box sx={{flexGrow: 1}} className="header" width={isOpen ? `calc(100% - ${SIDEBAR_WIDTH}px)` : '100%'}
+			 marginLeft={isOpen ? `${SIDEBAR_WIDTH}px` : '0'}>
 			<AppBar position="static">
 				<Toolbar>
-					<Typography variant="h6" textAlign="left" component="div" sx={{flexGrow: 1}}>
-						News
+					{!isOpen && <IconButton
+                        onClick={() => {
+							onOpen(true)
+						}}
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                    >
+                        <MenuIcon/>
+                    </IconButton>
+					}
+					<Typography onClick={() => navigate('/home')} className="logo" variant="h6" textAlign="left" component="div"
+								sx={{flexGrow: 1}}>
+						Чарівняньський ліцей
 					</Typography>
-					<Button color="inherit">Login</Button>
+					<IconButton sx={{ml: 1}} onClick={colorMode.toggleColorMode} color="inherit">
+						{theme.palette.mode === 'dark' ? <Brightness5OutlinedIcon/> : <Brightness4OutlinedIcon/>}
+					</IconButton>
 				</Toolbar>
 			</AppBar>
 		</Box>
 	)
-
 }

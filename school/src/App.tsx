@@ -1,24 +1,62 @@
 import './App.scss';
 
-import React from 'react';
+import React, {FC, useCallback, useMemo, useState} from 'react';
 import {Header} from "./components/Header/Header";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import {Content} from "./components/Content/Content";
+import {Footer} from "./components/Footer/Footer";
+import {Sidebar} from "./components/Sidebar/Sidebar";
 
-const darkTheme = createTheme({
-	palette: {
-		mode: 'dark',
-	},
+export const ColorModeContext = React.createContext({
+	toggleColorMode: () => {
+	}
 });
 
-function App() {
+export type TColorMode = 'light' | 'dark';
+
+export const App: FC = () => {
+	const [mode, setMode] = useState<TColorMode>('dark')
+	const [open, setOpen] = useState(false)
+
+	const theme = useMemo(
+		() =>
+			createTheme({
+				palette: {
+					mode,
+				},
+			}),
+		[mode],
+	);
+
+	const colorMode = useMemo(
+		() => ({
+			toggleColorMode: () => {
+				setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+			},
+		}),
+		[],
+	);
+
+	const handleIsOpenChanged = useCallback(
+		(isOpen: boolean) => {
+			setOpen(isOpen);
+		},
+		[]
+	);
+
 	return (
-		<ThemeProvider theme={darkTheme}>
-			<CssBaseline/>
-			<div className="App">
-				<Header/>
-			</div>
-		</ThemeProvider>
+		<ColorModeContext.Provider value={colorMode}>
+			<ThemeProvider theme={theme}>
+				<CssBaseline/>
+				<div className="App">
+					<Sidebar onOpen={handleIsOpenChanged} isOpen={open}/>
+					<Header
+						isOpen={open}
+						onOpen={handleIsOpenChanged}
+					/>
+					<Content isOpen={open}/>
+				</div>
+			</ThemeProvider>
+		</ColorModeContext.Provider>
 	);
 }
-
-export default App;
