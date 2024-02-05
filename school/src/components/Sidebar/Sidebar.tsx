@@ -143,25 +143,25 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</ListItemButton>
 				<Collapse in={collapse === 'toChildren'} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>
-						<ListItemButton sx={{pl: 4}}>
+						<ListItemButton sx={{pl: 4}} onClick={()=> handleNavigate('/rules')}>
 							<ListItemIcon>
 								<DensitySmallOutlinedIcon/>
 							</ListItemIcon>
 							<ListItemText primary="Правила для учнів"/>
 						</ListItemButton>
-						<ListItemButton sx={{pl: 4}}>
+						<ListItemButton sx={{pl: 4}} onClick={()=> handleNavigate('/schedule-of-days')}>
 							<ListItemIcon>
 								<DoorbellOutlinedIcon/>
 							</ListItemIcon>
 							<ListItemText primary="Розклад двінків"/>
 						</ListItemButton>
-						<ListItemButton sx={{pl: 4}}>
+						<ListItemButton sx={{pl: 4}} onClick={()=> handleNavigate('/class-schedule')}>
 							<ListItemIcon>
 								<CalendarMonthOutlinedIcon/>
 							</ListItemIcon>
 							<ListItemText primary="Розклад уроків"/>
 						</ListItemButton>
-						<ListItemButton sx={{pl: 4}}>
+						<ListItemButton sx={{pl: 4}} onClick={()=> handleNavigate('/distance-learning')}>
 							<ListItemIcon>
 								<CastForEducationOutlinedIcon/>
 							</ListItemIcon>
@@ -171,7 +171,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</Collapse>
 				<Divider/>
 
-				<ListItemButton>
+				<ListItemButton onClick={()=> handleNavigate('/useful-links')}>
 					<ListItemIcon>
 						<AddLinkOutlinedIcon/>
 					</ListItemIcon>
@@ -179,7 +179,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</ListItemButton>
 				<Divider/>
 
-				<ListItemButton>
+				<ListItemButton onClick={()=> handleNavigate('/for-teachers')}>
 					<ListItemIcon>
 						<AutoStoriesOutlinedIcon/>
 					</ListItemIcon>
@@ -187,7 +187,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</ListItemButton>
 				<Divider/>
 
-				<ListItemButton>
+				<ListItemButton onClick={()=> handleNavigate('/assistants')}>
 					<ListItemIcon>
 						<HelpCenterOutlinedIcon/>
 					</ListItemIcon>
@@ -195,7 +195,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</ListItemButton>
 				<Divider/>
 
-				<ListItemButton>
+				<ListItemButton onClick={()=> handleNavigate('/quality-of-education')}>
 					<ListItemIcon>
 						<SettingsSystemDaydreamOutlinedIcon/>
 					</ListItemIcon>
@@ -203,7 +203,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</ListItemButton>
 				<Divider/>
 
-				<ListItemButton>
+				<ListItemButton onClick={()=> handleNavigate('/self-assessment')}>
 					<ListItemIcon>
 						<CameraFrontOutlinedIcon/>
 					</ListItemIcon>
@@ -211,7 +211,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</ListItemButton>
 				<Divider/>
 
-				<ListItemButton>
+				<ListItemButton onClick={()=> handleNavigate('/academic-integrity')}>
 					<ListItemIcon>
 						<AnnouncementOutlinedIcon/>
 					</ListItemIcon>
@@ -219,7 +219,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</ListItemButton>
 				<Divider/>
 
-				<ListItemButton>
+				<ListItemButton onClick={()=> handleNavigate('/transparency')}>
 					<ListItemIcon>
 						<EditCalendarOutlinedIcon/>
 					</ListItemIcon>
@@ -228,7 +228,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</ListItemButton>
 				<Divider/>
 
-				<ListItemButton>
+				<ListItemButton onClick={()=> handleNavigate('/annual-plan')}>
 					<ListItemIcon>
 						<TodayOutlinedIcon/>
 					</ListItemIcon>
@@ -236,7 +236,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 				</ListItemButton>
 				<Divider/>
 
-				<ListItemButton>
+				<ListItemButton onClick={()=> handleNavigate('/psychologist')}>
 					<ListItemIcon>
 						<BoyOutlinedIcon/>
 					</ListItemIcon>

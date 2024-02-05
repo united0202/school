@@ -10,6 +10,17 @@ import {InfoAboutSchool} from "./pages/InfoAboutSchool/InfoAboutSchool";
 import {ClassroomTeachers} from "./pages/СlassroomTeachers/СlassroomTeachers";
 import {EducatorOrganizer} from "./pages/EducatorOrganizer/EducatorOrganizer";
 import {Librarian} from "./pages/Librarian/Librarian";
+import {RulesForChildren} from "./pages/RulesForChildren/RulesForChildren";
+import {ScheduleOfDays} from "./pages/ScheduleOfDays/ScheduleOfDays";
+import {ClassSchedule} from "./pages/ClassSchedule/ClassSchedule";
+import {DistanceLearning} from "./pages/DistanceLearning/DistanceLearning";
+import {UsefulLinks} from "./pages/UsefulLinks/UsefulLinks";
+import {CharitableAssistance} from "./pages/CharitableAssistance/CharitableAssistance";
+import {QualityOfEducation} from "./pages/QualityOfEducation/QualityOfEducation";
+import {SelfAssessment} from "./pages/SelfAssessment/SelfAssessment";
+import {AcademicIntegrity} from "./pages/AcademicIntegrity/AcademicIntegrity";
+import {AnnualPlan} from "./pages/AnnualPlan/AnnualPlan";
+import {Psychologist} from "./pages/Psychologist/Psychologist";
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -43,6 +54,58 @@ const router = createBrowserRouter([
 			{
 				path: '/librarian',
 				element: <Librarian/>
+			},
+			{
+				path: '/rules',
+				element: <RulesForChildren />
+			},
+			{
+				path: '/schedule-of-days',
+				element: <ScheduleOfDays />
+			},
+			{
+				path: '/class-schedule',
+				element: <ClassSchedule />
+			},
+			{
+				path: '/distance-learning',
+				element: <DistanceLearning />
+			},
+			{
+				path: '/useful-links',
+				element: <UsefulLinks />
+			},
+			{
+				path: '/for-teachers',
+				element: <UsefulLinks />
+			},
+			{
+				path: '/assistants',
+				element: <CharitableAssistance />
+			},
+			{
+				path: '/quality-of-education',
+				element: <QualityOfEducation />
+			},
+			{
+				path: '/self-assessment',
+				element: <SelfAssessment />
+			},
+			{
+				path: '/academic-integrity',
+				element: <AcademicIntegrity />
+			},
+			{
+				path: '/transparency',
+				element: <AcademicIntegrity />
+			},
+			{
+				path: '/annual-plan',
+				element: <AnnualPlan />
+			},
+			{
+				path: '/psychologist',
+				element: <Psychologist />
 			}
 		]
 	},
