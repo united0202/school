@@ -12,9 +12,9 @@ interface IContentProps {
 export const Content: FC<IContentProps> = ({isOpen}) => {
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		navigate('/home');
-	}, []);
+	// useEffect(() => {
+	// 	// navigate('/home');
+	// }, []);
 
 	return <Container maxWidth="xl" className="container">
 		<Box sx={{flexGrow: 1}} className="header" width={isOpen ? `calc(100% - ${SIDEBAR_WIDTH}px)` : '100%'}

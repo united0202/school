@@ -21,100 +21,108 @@ import {SelfAssessment} from "./pages/SelfAssessment/SelfAssessment";
 import {AcademicIntegrity} from "./pages/AcademicIntegrity/AcademicIntegrity";
 import {AnnualPlan} from "./pages/AnnualPlan/AnnualPlan";
 import {Psychologist} from "./pages/Psychologist/Psychologist";
+import {Login} from "./pages/Login/Login";
+import {AuthProvider} from "./context/AuthContext";
 
 const root = ReactDOM.createRoot(
-	document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 
 const router = createBrowserRouter([
-	{
-		path: '/',
-		element: <App/>,
-		children: [
-			{
-				path: '/home',
-				element: <Home/>
-			},
-			{
-				path: '/news',
-				element: <News/>
-			},
-			{
-				path: '/about',
-				element: <InfoAboutSchool/>
-			},
-			{
-				path: '/classroom-teachers',
-				element: <ClassroomTeachers/>
-			},
-			{
-				path: '/educator-organizer',
-				element: <EducatorOrganizer/>
-			},
-			{
-				path: '/librarian',
-				element: <Librarian/>
-			},
-			{
-				path: '/rules',
-				element: <RulesForChildren />
-			},
-			{
-				path: '/schedule-of-days',
-				element: <ScheduleOfDays />
-			},
-			{
-				path: '/class-schedule',
-				element: <ClassSchedule />
-			},
-			{
-				path: '/distance-learning',
-				element: <DistanceLearning />
-			},
-			{
-				path: '/useful-links',
-				element: <UsefulLinks />
-			},
-			{
-				path: '/for-teachers',
-				element: <UsefulLinks />
-			},
-			{
-				path: '/assistants',
-				element: <CharitableAssistance />
-			},
-			{
-				path: '/quality-of-education',
-				element: <QualityOfEducation />
-			},
-			{
-				path: '/self-assessment',
-				element: <SelfAssessment />
-			},
-			{
-				path: '/academic-integrity',
-				element: <AcademicIntegrity />
-			},
-			{
-				path: '/transparency',
-				element: <AcademicIntegrity />
-			},
-			{
-				path: '/annual-plan',
-				element: <AnnualPlan />
-			},
-			{
-				path: '/psychologist',
-				element: <Psychologist />
-			}
-		]
-	},
+    {
+        path: '/',
+        element: <App/>,
+        children: [
+            {
+                path: '/login',
+                element: <Login/>,
+            },
+            {
+                path: '/home',
+                element: <Home/>
+            },
+            {
+                path: '/news',
+                element: <News/>
+            },
+            {
+                path: '/about',
+                element: <InfoAboutSchool/>
+            },
+            {
+                path: '/classroom-teachers',
+                element: <ClassroomTeachers/>
+            },
+            {
+                path: '/educator-organizer',
+                element: <EducatorOrganizer/>
+            },
+            {
+                path: '/librarian',
+                element: <Librarian/>
+            },
+            {
+                path: '/rules',
+                element: <RulesForChildren/>
+            },
+            {
+                path: '/schedule-of-days',
+                element: <ScheduleOfDays/>
+            },
+            {
+                path: '/class-schedule',
+                element: <ClassSchedule/>
+            },
+            {
+                path: '/distance-learning',
+                element: <DistanceLearning/>
+            },
+            {
+                path: '/useful-links',
+                element: <UsefulLinks/>
+            },
+            {
+                path: '/for-teachers',
+                element: <UsefulLinks/>
+            },
+            {
+                path: '/assistants',
+                element: <CharitableAssistance/>
+            },
+            {
+                path: '/quality-of-education',
+                element: <QualityOfEducation/>
+            },
+            {
+                path: '/self-assessment',
+                element: <SelfAssessment/>
+            },
+            {
+                path: '/academic-integrity',
+                element: <AcademicIntegrity/>
+            },
+            {
+                path: '/transparency',
+                element: <AcademicIntegrity/>
+            },
+            {
+                path: '/annual-plan',
+                element: <AnnualPlan/>
+            },
+            {
+                path: '/psychologist',
+                element: <Psychologist/>
+            }
+        ]
+    },
 ]);
 
 root.render(
-	<React.StrictMode>
-		<RouterProvider router={router}/>
-	</React.StrictMode>
+    <React.StrictMode>
+        <AuthProvider>
+            <RouterProvider router={router}/>
+        </AuthProvider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
