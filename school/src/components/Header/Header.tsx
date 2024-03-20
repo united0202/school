@@ -42,14 +42,6 @@ export const Header: FC<IHeaderProps> = ({onOpen, isOpen}) => {
                                 sx={{flexGrow: 1}}>
                         Чарівняньський ліцей
                     </Typography>
-                    {currentUser && <Button
-                        type="button"
-                        variant="contained"
-                        sx={{mt: 3, mb: 2}}
-                        onClick={signOut}
-                    >
-                        {currentUser.email}
-                    </Button>}
                     <IconButton sx={{ml: 1}} onClick={colorMode.toggleColorMode} color="inherit">
                         {theme.palette.mode === 'dark' ? <Brightness5OutlinedIcon/> : <Brightness4OutlinedIcon/>}
                     </IconButton>

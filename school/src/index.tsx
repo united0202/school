@@ -21,7 +21,6 @@ import {SelfAssessment} from "./pages/SelfAssessment/SelfAssessment";
 import {AcademicIntegrity} from "./pages/AcademicIntegrity/AcademicIntegrity";
 import {AnnualPlan} from "./pages/AnnualPlan/AnnualPlan";
 import {Psychologist} from "./pages/Psychologist/Psychologist";
-import {Login} from "./pages/Login/Login";
 import {AuthProvider} from "./context/AuthContext";
 import {Editor} from "./pages/Editor/Editor";
 import {Pages} from "./pages/Pages/Pages";
@@ -42,10 +41,6 @@ const router = createBrowserRouter([
             {
                 path: '/pages',
                 element: <Pages/>,
-            },
-            {
-                path: '/login',
-                element: <Login/>,
             },
             {
                 path: '/home',

@@ -1,7 +1,8 @@
 import './Sidebar.scss';
 
-import React, {FC, Fragment, useCallback, useState} from "react";
+import React, {FC, Fragment, useCallback, useContext, useState} from "react";
 import {
+    Button,
     Collapse,
     Divider,
     Drawer,
@@ -10,7 +11,6 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Typography
 } from '@mui/material';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 import {SIDEBAR_WIDTH} from "../../config";
@@ -38,18 +38,21 @@ import BoyOutlinedIcon from '@mui/icons-material/BoyOutlined';
 import {useNavigate} from "react-router-dom";
 import {TPageType} from "../../types";
 import {usePages} from "../../hooks/usePages";
+import {useUser} from "../../hooks/useUser";
+import {AuthContext} from "../../context/AuthContext";
+import {SignIn} from "../../popups/SignIn";
 
 interface ISidebarProps {
     isOpen: boolean;
     onOpen: (isOpen: boolean) => void;
 }
 
-type TCollapseType = 'educational' | 'toChildren';
-
 export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
     const [collapse, setCollapse] = useState<TPageType | null>(null);
+    const [popupOpen, setPopupOpen] = useState(false);
     const navigate = useNavigate();
     const {pages} = usePages();
+    const {currentUser, signOut} = useContext(AuthContext)
 
     const IconsMap: Record<TPageType, any> = {
         news: <FeedOutlinedIcon/>,
@@ -87,14 +90,27 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
         navigate(path);
     }, []);
 
-    const handleItemClicked = useCallback((isHaveSubpages: boolean, id: TPageType) => {
-        if (!isHaveSubpages) {
+    const handleItemClicked = useCallback((isSubpages: boolean, id: TPageType) => {
+        if (!isSubpages) {
             handleNavigate(`/${id}`);
             return;
         }
 
         handleCollapse(id);
     }, [handleNavigate, handleCollapse]);
+
+    const handleSignInSignOut = useCallback(() => {
+        // onOpen(false);
+
+        if (currentUser) {
+            signOut();
+            handleNavigate('/about');
+            return;
+        }
+
+        setPopupOpen(true);
+        // handleNavigate('/login');
+    }, [])
 
     return <Drawer
         sx={{
@@ -110,10 +126,15 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
         open={isOpen}
     >
         <div>
+            <SignIn onClose={()=> setPopupOpen(false)} open={popupOpen} />
             <div className="sidebar-header">
-                <Typography component="div" variant="h5">
-                    Головне меню:
-                </Typography>
+                <Button
+                    type="button"
+                    variant="contained"
+                    onClick={handleSignInSignOut}
+                >
+                    {currentUser ? 'Вийти' : 'Увійти'}
+                </Button>
                 <IconButton onClick={() => onOpen(false)}>
                     <ArrowBackIosOutlinedIcon/>
                 </IconButton>
@@ -126,7 +147,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
                     return (
                         <Fragment key={page.id}>
                             <ListItemButton onClick={() => handleItemClicked(isSubpages, page.id)}>
-                               <ListItemIcon>
+                                <ListItemIcon>
                                     {icon}
                                 </ListItemIcon>
                                 <ListItemText primary={page.title}/>
