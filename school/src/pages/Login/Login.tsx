@@ -22,7 +22,7 @@ export const Login: FC = () => {
         signInUser(user.email, user.password).then(result => {
             console.log(result);
             if (result) {
-                navigate('/')
+                navigate('/pages')
             }
         }).catch(reason => {
             console.log(reason);

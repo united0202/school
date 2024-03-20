@@ -7,6 +7,7 @@ import {Content} from "./components/Content/Content";
 import {Sidebar} from "./components/Sidebar/Sidebar";
 
 import {useUser} from "./hooks/useUser";
+import {usePages} from "./hooks/usePages";
 
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {}
@@ -17,6 +18,7 @@ export type TColorMode = 'light' | 'dark';
 export const App: FC = () => {
     const [mode, setMode] = useState<TColorMode>('dark')
     const [open, setOpen] = useState(false)
+
 
     const theme = useMemo(
         () =>

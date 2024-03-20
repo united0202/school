@@ -23,6 +23,8 @@ import {AnnualPlan} from "./pages/AnnualPlan/AnnualPlan";
 import {Psychologist} from "./pages/Psychologist/Psychologist";
 import {Login} from "./pages/Login/Login";
 import {AuthProvider} from "./context/AuthContext";
+import {Editor} from "./pages/Editor/Editor";
+import {Pages} from "./pages/Pages/Pages";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -33,6 +35,14 @@ const router = createBrowserRouter([
         path: '/',
         element: <App/>,
         children: [
+            {
+                path: '/editor',
+                element: <Editor/>,
+            },
+            {
+                path: '/pages',
+                element: <Pages/>,
+            },
             {
                 path: '/login',
                 element: <Login/>,

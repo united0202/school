@@ -1,0 +1,61 @@
+import {db} from "../firebase-config";
+import {
+    collection,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+} from "firebase/firestore";
+import {useEffect, useState} from "react";
+import {TPageType} from "../types";
+
+interface IPage {
+    title: string;
+    id: TPageType;
+    subpages?: IPage[];
+}
+
+export const usePages = () => {
+    const [pages, setPages] = useState<IPage[]>([])
+
+    useEffect(()=>{
+        getPages();
+    }, [])
+
+    const pagesCollection = collection(db, "pages");
+    const getPages = async (): Promise<void> => {
+        const pages: IPage[] = [];
+        const pageDocs = await getDocs(pagesCollection);
+        pageDocs.docs.map(document => {
+            const subpagesCollection = collection(db, `pages/${document.id}/pages`);
+            const subpagesPromise = getDocs(subpagesCollection);
+            subpagesPromise.then(subpagesDoc => {
+                const subpages: IPage[] = [];
+
+                if (subpagesDoc.docs.length > 0) {
+                    subpagesDoc.docs.map(sub => {
+                        const data = sub.data();
+                        subpages.push({
+                            title: data.title,
+                            id: sub.id as TPageType
+                        })
+                    })
+                }
+
+                const data = document.data();
+                pages.push({
+                    title: data.title,
+                    id: document.id as TPageType,
+                    subpages
+                })
+            }).finally(() => {
+                setPages(pages);
+            })
+        })
+    }
+
+    return {
+        pages
+    }
+}

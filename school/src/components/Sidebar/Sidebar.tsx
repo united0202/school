@@ -1,16 +1,16 @@
 import './Sidebar.scss';
 
-import React, {FC, useCallback, useState} from "react";
+import React, {FC, Fragment, useCallback, useState} from "react";
 import {
-	Collapse,
-	Divider,
-	Drawer,
-	IconButton,
-	List,
-	ListItemButton,
-	ListItemIcon,
-	ListItemText,
-	Typography
+    Collapse,
+    Divider,
+    Drawer,
+    IconButton,
+    List,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Typography
 } from '@mui/material';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 import {SIDEBAR_WIDTH} from "../../config";
@@ -36,214 +36,123 @@ import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
 import TodayOutlinedIcon from '@mui/icons-material/TodayOutlined';
 import BoyOutlinedIcon from '@mui/icons-material/BoyOutlined';
 import {useNavigate} from "react-router-dom";
+import {TPageType} from "../../types";
+import {usePages} from "../../hooks/usePages";
 
 interface ISidebarProps {
-	isOpen: boolean;
-	onOpen: (isOpen: boolean) => void;
+    isOpen: boolean;
+    onOpen: (isOpen: boolean) => void;
 }
 
 type TCollapseType = 'educational' | 'toChildren';
 
 export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
-	const [collapse, setCollapse] = useState<TCollapseType | null>(null);
-	const navigate = useNavigate();
+    const [collapse, setCollapse] = useState<TPageType | null>(null);
+    const navigate = useNavigate();
+    const {pages} = usePages();
 
-	const handleCollapse = useCallback((type: TCollapseType) => {
-		if (type === collapse) {
-			setCollapse(null);
-			return;
-		}
+    const IconsMap: Record<TPageType, any> = {
+        news: <FeedOutlinedIcon/>,
+        about: <DnsOutlinedIcon/>,
+        educational: <SchoolOutlinedIcon/>,
+        "classroom-teachers": <Diversity3OutlinedIcon/>,
+        "educator-organizer": <PeopleAltOutlinedIcon/>,
+        librarian: <AccessibilityOutlinedIcon/>,
+        toChildren: <FamilyRestroomOutlinedIcon/>,
+        rules: <DensitySmallOutlinedIcon/>,
+        "schedule-of-days": <DoorbellOutlinedIcon/>,
+        "class-schedule": <CalendarMonthOutlinedIcon/>,
+        "distance-learning": <CastForEducationOutlinedIcon/>,
+        "useful-links": <AddLinkOutlinedIcon/>,
+        "for-teachers": <AutoStoriesOutlinedIcon/>,
+        assistants: <HelpCenterOutlinedIcon/>,
+        "quality-of-education": <SettingsSystemDaydreamOutlinedIcon/>,
+        "self-assessment": <CameraFrontOutlinedIcon/>,
+        "academic-integrity": <AnnouncementOutlinedIcon/>,
+        transparency: <EditCalendarOutlinedIcon/>,
+        "annual-plan": <TodayOutlinedIcon/>,
+        psychologist: <BoyOutlinedIcon/>
+    }
 
-		setCollapse(type);
-	}, [collapse]);
+    const handleCollapse = useCallback((type: TPageType) => {
+        if (type === collapse) {
+            setCollapse(null);
+            return;
+        }
 
-	const handleNavigate = useCallback((path: string) => {
-		navigate(path);
-	}, []);
+        setCollapse(type);
+    }, [collapse]);
 
+    const handleNavigate = useCallback((path: string) => {
+        navigate(path);
+    }, []);
 
-	return <Drawer
-		sx={{
-			width: SIDEBAR_WIDTH,
-			flexShrink: 0,
-			'& .MuiDrawer-paper': {
-				width: SIDEBAR_WIDTH,
-				boxSizing: 'border-box',
-			},
-		}}
-		variant="persistent"
-		anchor="left"
-		open={isOpen}
-	>
-		<div>
-			<div className="sidebar-header">
-				<Typography component="div" variant="h5">
-					Головне меню:
-				</Typography>
-				<IconButton onClick={() => onOpen(false)}>
-					<ArrowBackIosOutlinedIcon/>
-				</IconButton>
-			</div>
-			<Divider/>
-			<List component="nav" sx={{width: '100%', padding: 0}} aria-labelledby="nested-list-subheader">
+    const handleItemClicked = useCallback((isHaveSubpages: boolean, id: TPageType) => {
+        if (!isHaveSubpages) {
+            handleNavigate(`/${id}`);
+            return;
+        }
 
-				<ListItemButton onClick={() => handleNavigate('/news')}>
-					<ListItemIcon>
-						<FeedOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Hoвини"/>
-				</ListItemButton>
-				<Divider/>
+        handleCollapse(id);
+    }, [handleNavigate, handleCollapse]);
 
-				<ListItemButton onClick={() => handleNavigate('/about')}>
-					<ListItemIcon>
-						<DnsOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Інформація про заклад"/>
-				</ListItemButton>
-				<Divider/>
-
-				<ListItemButton onClick={() => handleCollapse('educational')}>
-					<ListItemIcon>
-						<SchoolOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Виховна робота"/>
-					{collapse === 'educational' ? <ExpandLess/> : <ExpandMore/>}
-				</ListItemButton>
-				<Collapse in={collapse === 'educational'} timeout="auto" unmountOnExit>
-					<List component="div" disablePadding>
-						<ListItemButton sx={{pl: 4}} onClick={() => handleNavigate('/classroom-teachers')}>
-							<ListItemIcon>
-								<Diversity3OutlinedIcon/>
-							</ListItemIcon>
-							<ListItemText primary="Класні керівники"/>
-						</ListItemButton>
-						<ListItemButton sx={{pl: 4}} onClick={() => handleNavigate('/educator-organizer')}>
-							<ListItemIcon>
-								<PeopleAltOutlinedIcon/>
-							</ListItemIcon>
-							<ListItemText primary="Педагог організатор"/>
-						</ListItemButton>
-						<ListItemButton sx={{pl: 4}} onClick={() => handleNavigate('/librarian')}>
-							<ListItemIcon>
-								<AccessibilityOutlinedIcon/>
-							</ListItemIcon>
-							<ListItemText primary="Бібліотекар"/>
-						</ListItemButton>
-					</List>
-				</Collapse>
-				<Divider/>
-
-				<ListItemButton onClick={() => handleCollapse('toChildren')}>
-					<ListItemIcon>
-						<FamilyRestroomOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Учням"/>
-					{collapse === 'toChildren' ? <ExpandLess/> : <ExpandMore/>}
-				</ListItemButton>
-				<Collapse in={collapse === 'toChildren'} timeout="auto" unmountOnExit>
-					<List component="div" disablePadding>
-						<ListItemButton sx={{pl: 4}} onClick={()=> handleNavigate('/rules')}>
-							<ListItemIcon>
-								<DensitySmallOutlinedIcon/>
-							</ListItemIcon>
-							<ListItemText primary="Правила для учнів"/>
-						</ListItemButton>
-						<ListItemButton sx={{pl: 4}} onClick={()=> handleNavigate('/schedule-of-days')}>
-							<ListItemIcon>
-								<DoorbellOutlinedIcon/>
-							</ListItemIcon>
-							<ListItemText primary="Розклад двінків"/>
-						</ListItemButton>
-						<ListItemButton sx={{pl: 4}} onClick={()=> handleNavigate('/class-schedule')}>
-							<ListItemIcon>
-								<CalendarMonthOutlinedIcon/>
-							</ListItemIcon>
-							<ListItemText primary="Розклад уроків"/>
-						</ListItemButton>
-						<ListItemButton sx={{pl: 4}} onClick={()=> handleNavigate('/distance-learning')}>
-							<ListItemIcon>
-								<CastForEducationOutlinedIcon/>
-							</ListItemIcon>
-							<ListItemText primary="Дистанційне навчання"/>
-						</ListItemButton>
-					</List>
-				</Collapse>
-				<Divider/>
-
-				<ListItemButton onClick={()=> handleNavigate('/useful-links')}>
-					<ListItemIcon>
-						<AddLinkOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Корисні посилання"/>
-				</ListItemButton>
-				<Divider/>
-
-				<ListItemButton onClick={()=> handleNavigate('/for-teachers')}>
-					<ListItemIcon>
-						<AutoStoriesOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Вчителям"/>
-				</ListItemButton>
-				<Divider/>
-
-				<ListItemButton onClick={()=> handleNavigate('/assistants')}>
-					<ListItemIcon>
-						<HelpCenterOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Благодійна допомога"/>
-				</ListItemButton>
-				<Divider/>
-
-				<ListItemButton onClick={()=> handleNavigate('/quality-of-education')}>
-					<ListItemIcon>
-						<SettingsSystemDaydreamOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Внутрішня система забезпечення якості освіти"/>
-				</ListItemButton>
-				<Divider/>
-
-				<ListItemButton onClick={()=> handleNavigate('/self-assessment')}>
-					<ListItemIcon>
-						<CameraFrontOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Самооцінювання"/>
-				</ListItemButton>
-				<Divider/>
-
-				<ListItemButton onClick={()=> handleNavigate('/academic-integrity')}>
-					<ListItemIcon>
-						<AnnouncementOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Положення про академічну доброчесність"/>
-				</ListItemButton>
-				<Divider/>
-
-				<ListItemButton onClick={()=> handleNavigate('/transparency')}>
-					<ListItemIcon>
-						<EditCalendarOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText
-						primary="Забезпечення прозорості та інмормаційної відкритості діяльності закладу освіти"/>
-				</ListItemButton>
-				<Divider/>
-
-				<ListItemButton onClick={()=> handleNavigate('/annual-plan')}>
-					<ListItemIcon>
-						<TodayOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Річний план"/>
-				</ListItemButton>
-				<Divider/>
-
-				<ListItemButton onClick={()=> handleNavigate('/psychologist')}>
-					<ListItemIcon>
-						<BoyOutlinedIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Сторінка проектного психолога"/>
-				</ListItemButton>
-				<Divider/>
-			</List>
-		</div>
-	</Drawer>
+    return <Drawer
+        sx={{
+            width: SIDEBAR_WIDTH,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+                width: SIDEBAR_WIDTH,
+                boxSizing: 'border-box',
+            },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={isOpen}
+    >
+        <div>
+            <div className="sidebar-header">
+                <Typography component="div" variant="h5">
+                    Головне меню:
+                </Typography>
+                <IconButton onClick={() => onOpen(false)}>
+                    <ArrowBackIosOutlinedIcon/>
+                </IconButton>
+            </div>
+            <Divider/>
+            <List component="nav" sx={{width: '100%', padding: 0}} aria-labelledby="nested-list-subheader">
+                {pages.map(page => {
+                    const icon = IconsMap[page.id];
+                    const isSubpages = page.subpages !== undefined && page.subpages.length > 0;
+                    return (
+                        <Fragment key={page.id}>
+                            <ListItemButton onClick={() => handleItemClicked(isSubpages, page.id)}>
+                               <ListItemIcon>
+                                    {icon}
+                                </ListItemIcon>
+                                <ListItemText primary={page.title}/>
+                                {isSubpages && (collapse === page.id ? <ExpandLess/> : <ExpandMore/>)}
+                            </ListItemButton>
+                            <Divider/>
+                            {isSubpages && (
+                                <Collapse in={collapse === page.id} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding>
+                                        {page.subpages && page.subpages.map(subpage => {
+                                            const subIcon = IconsMap[subpage.id];
+                                            return <ListItemButton key={subpage.id} sx={{pl: 4}}
+                                                                   onClick={() => handleNavigate(`/${subpage.id}`)}>
+                                                <ListItemIcon>
+                                                    {subIcon}
+                                                </ListItemIcon>
+                                                <ListItemText primary={subpage.title}/>
+                                            </ListItemButton>
+                                        })}
+                                    </List>
+                                </Collapse>
+                            )}
+                        </Fragment>
+                    )
+                })}
+            </List>
+        </div>
+    </Drawer>
 }
