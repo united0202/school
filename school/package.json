@@ -15,12 +15,14 @@
     "@types/node": "^16.18.76",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "draft-js": "^0.11.7",
     "firebase": "^10.9.0",
     "git": "^0.1.5",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-draft-wysiwyg": "^1.15.0",
     "react-router-dom": "^6.21.3",
     "react-scripts": "^5.0.1",
     "sass": "^1.70.0",
@@ -51,5 +53,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-draft-wysiwyg": "^1.13.8"
   }
 }
