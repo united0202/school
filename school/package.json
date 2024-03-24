@@ -16,6 +16,9 @@
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
     "draft-js": "^0.11.7",
+    "draft-js-export-html": "^1.4.1",
+    "draftjs-to-html": "^0.9.1",
+    "draftjs-to-markdown": "^0.6.0",
     "firebase": "^10.9.0",
     "git": "^0.1.5",
     "localforage": "^1.10.0",
@@ -55,6 +58,7 @@
     ]
   },
   "devDependencies": {
+    "@types/draftjs-to-html": "^0.8.4",
     "@types/react-draft-wysiwyg": "^1.13.8"
   }
 }

@@ -6,9 +6,6 @@ import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import {Content} from "./components/Content/Content";
 import {Sidebar} from "./components/Sidebar/Sidebar";
 
-import {useUser} from "./hooks/useUser";
-import {usePages} from "./hooks/usePages";
-
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {}
 });

@@ -100,7 +100,6 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
     }, [handleNavigate, handleCollapse]);
 
     const handleSignInSignOut = useCallback(() => {
-        // onOpen(false);
 
         if (currentUser) {
             signOut();
@@ -109,7 +108,6 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
         }
 
         setPopupOpen(true);
-        // handleNavigate('/login');
     }, [])
 
     return <Drawer
