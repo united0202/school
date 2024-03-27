@@ -1,7 +1,7 @@
 import {User} from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 import {createContext, useState, useEffect, ReactNode} from "react";
-import {useUser} from "../hooks/useUser";
+import {useAuthentication} from "../hooks/useAuthentication";
 import firebase from "firebase/compat";
 
 interface Props {
@@ -19,7 +19,7 @@ export const AuthContext = createContext({
 export const AuthProvider = ({children}: Props) => {
     const [currentUser, setCurrentUser] = useState<User | null>(null)
     // const navigate = useNavigate()
-    const {signOutUser, userStateListener} = useUser();
+    const {signOutUser, userStateListener} = useAuthentication();
 
     useEffect(() => {
         const unsubscribe = userStateListener((user) => {

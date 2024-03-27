@@ -13,7 +13,7 @@ export const ColorModeContext = React.createContext({
 export type TColorMode = 'light' | 'dark';
 
 export const App: FC = () => {
-    const [mode, setMode] = useState<TColorMode>('dark')
+    const [mode, setMode] = useState<TColorMode>('light')
     const [open, setOpen] = useState(false)
 
 

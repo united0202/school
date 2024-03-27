@@ -1,6 +1,6 @@
 import {FC, FormEvent} from "react";
 import {Box, Button, Dialog, DialogTitle, TextField} from "@mui/material";
-import {useUser} from "../hooks/useUser";
+import {useAuthentication} from "../hooks/useAuthentication";
 import {useNavigate} from "react-router-dom";
 
 export interface SignInProps {
@@ -9,7 +9,7 @@ export interface SignInProps {
 }
 
 export const SignIn: FC<SignInProps> = ({onClose, open}) => {
-    const {signInUser} = useUser();
+    const {signInUser} = useAuthentication();
     const navigate = useNavigate();
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();

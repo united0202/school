@@ -1,6 +1,6 @@
 import './Sidebar.scss';
 
-import React, {FC, Fragment, useCallback, useContext, useState} from "react";
+import React, {FC, Fragment, useCallback, useContext, useEffect, useState} from "react";
 import {
     Button,
     Collapse,
@@ -38,9 +38,9 @@ import BoyOutlinedIcon from '@mui/icons-material/BoyOutlined';
 import {useNavigate} from "react-router-dom";
 import {TPageType} from "../../types";
 import {usePages} from "../../hooks/usePages";
-import {useUser} from "../../hooks/useUser";
-import {AuthContext} from "../../context/AuthContext";
+import {useAuthentication} from "../../hooks/useAuthentication";
 import {SignIn} from "../../popups/SignIn";
+import {useUser} from "../../hooks/useUser";
 
 interface ISidebarProps {
     isOpen: boolean;
@@ -52,7 +52,8 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
     const [popupOpen, setPopupOpen] = useState(false);
     const navigate = useNavigate();
     const {pages} = usePages();
-    const {currentUser, signOut} = useContext(AuthContext)
+    const user = useUser();
+    const {signOutUser} = useAuthentication();
 
     const IconsMap: Record<TPageType, any> = {
         news: <FeedOutlinedIcon/>,
@@ -101,14 +102,14 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 
     const handleSignInSignOut = useCallback(() => {
 
-        if (currentUser) {
-            signOut();
+        if (user) {
+            signOutUser();
             handleNavigate('/about');
             return;
         }
 
         setPopupOpen(true);
-    }, [])
+    }, [user])
 
     return <Drawer
         sx={{
@@ -131,7 +132,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
                     variant="contained"
                     onClick={handleSignInSignOut}
                 >
-                    {currentUser ? 'Вийти' : 'Увійти'}
+                    {user ? 'Вийти' : 'Увійти'}
                 </Button>
                 <IconButton onClick={() => onOpen(false)}>
                     <ArrowBackIosOutlinedIcon/>
