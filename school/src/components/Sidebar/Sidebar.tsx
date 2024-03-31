@@ -1,6 +1,6 @@
 import './Sidebar.scss';
 
-import React, {FC, Fragment, useCallback, useContext, useEffect, useState} from "react";
+import React, {FC, Fragment, useCallback, useState} from "react";
 import {
     Button,
     Collapse,
@@ -87,13 +87,13 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
         setCollapse(type);
     }, [collapse]);
 
-    const handleNavigate = useCallback((path: string) => {
-        navigate(path);
+    const handleNavigate = useCallback((id: string) => {
+        navigate(`page/${id}`);
     }, []);
 
     const handleItemClicked = useCallback((isSubpages: boolean, id: TPageType) => {
         if (!isSubpages) {
-            handleNavigate(`/${id}`);
+            handleNavigate(id);
             return;
         }
 
@@ -104,7 +104,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
 
         if (user) {
             signOutUser();
-            handleNavigate('/about');
+            navigate('/');
             return;
         }
 
@@ -125,7 +125,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
         open={isOpen}
     >
         <div>
-            <SignIn onClose={()=> setPopupOpen(false)} open={popupOpen} />
+            <SignIn onClose={() => setPopupOpen(false)} open={popupOpen}/>
             <div className="sidebar-header">
                 <Button
                     type="button"
@@ -141,6 +141,10 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
             <Divider/>
             <List component="nav" sx={{width: '100%', padding: 0}} aria-labelledby="nested-list-subheader">
                 {pages.map(page => {
+                    if (page.order === 0) {
+                        return;
+                    }
+
                     const icon = IconsMap[page.id];
                     const isSubpages = page.subpages !== undefined && page.subpages.length > 0;
                     return (
@@ -159,7 +163,7 @@ export const Sidebar: FC<ISidebarProps> = ({isOpen, onOpen}) => {
                                         {page.subpages && page.subpages.map(subpage => {
                                             const subIcon = IconsMap[subpage.id];
                                             return <ListItemButton key={subpage.id} sx={{pl: 4}}
-                                                                   onClick={() => handleNavigate(`/${subpage.id}`)}>
+                                                                   onClick={() => handleNavigate(subpage.id)}>
                                                 <ListItemIcon>
                                                     {subIcon}
                                                 </ListItemIcon>

@@ -5,9 +5,13 @@ import {Header} from "./components/Header/Header";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import {Content} from "./components/Content/Content";
 import {Sidebar} from "./components/Sidebar/Sidebar";
+import {BrowserRouter, createRoutesFromElements, Outlet, Route, Routes} from "react-router-dom";
+import {AuthProvider} from "./context/AuthContext";
+import {Home} from "./pages/Home/Home";
 
 export const ColorModeContext = React.createContext({
-    toggleColorMode: () => {}
+    toggleColorMode: () => {
+    }
 });
 
 export type TColorMode = 'light' | 'dark';
@@ -15,7 +19,6 @@ export type TColorMode = 'light' | 'dark';
 export const App: FC = () => {
     const [mode, setMode] = useState<TColorMode>('light')
     const [open, setOpen] = useState(false)
-
 
     const theme = useMemo(
         () =>
@@ -44,18 +47,22 @@ export const App: FC = () => {
     );
 
     return (
-        <ColorModeContext.Provider value={colorMode}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline/>
-                <div className="App">
-                    <Sidebar onOpen={handleIsOpenChanged} isOpen={open}/>
-                    <Header
-                        isOpen={open}
-                        onOpen={handleIsOpenChanged}
-                    />
-                    <Content isOpen={open}/>
-                </div>
-            </ThemeProvider>
-        </ColorModeContext.Provider>
+        <BrowserRouter>
+            <AuthProvider>
+                <ColorModeContext.Provider value={colorMode}>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline/>
+                        <div className="App">
+                            <Sidebar onOpen={handleIsOpenChanged} isOpen={open}/>
+                            <Header
+                                isOpen={open}
+                                onOpen={handleIsOpenChanged}
+                            />
+                            <Content isOpen={open}/>
+                        </div>
+                    </ThemeProvider>
+                </ColorModeContext.Provider>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }

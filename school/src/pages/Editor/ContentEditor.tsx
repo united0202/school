@@ -3,51 +3,48 @@ import './ContentEditor.scss'
 import React, {FC, Fragment, SyntheticEvent, useCallback, useEffect, useState} from "react";
 import {Editor} from 'react-draft-wysiwyg'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import {convertFromRaw, convertToRaw, EditorState, RawDraftContentState} from "draft-js";
-import draftToHtml from 'draftjs-to-html';
-import {Button, IconButton, Snackbar} from "@mui/material";
-
-const content = JSON.stringify({
-    "entityMap": {},
-    "blocks": [{
-        "key": "637gr",
-        "text": "Initialized from content state.",
-        "type": "unstyled",
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {}
-    }]
-});
+import {convertFromRaw, convertToRaw, EditorState} from "draft-js";
+import {Button, Snackbar} from "@mui/material";
+import {useParams} from "react-router-dom";
+import {usePage} from "../../hooks/usePage";
 
 export const ContentEditor: FC = () => {
+    const {id} = useParams<{ id: string }>();
     const [state, setState] = useState<EditorState>(EditorState.createEmpty());
     const [open, setOpen] = useState(false);
-    const [contentState, setContentState] = useState<RawDraftContentState>({blocks: [], entityMap: {}});
+    const {getPage, savePage} = usePage();
+
+    const page = getPage(id ?? '');
 
     useEffect(() => {
-        const initState = EditorState.createWithContent(
-            convertFromRaw(JSON.parse(content))
-        )
-        setState(initState)
-    }, []);
+        const initState = page && page.content ? EditorState.createWithContent(
+            convertFromRaw(JSON.parse(page.content))
+        ) : EditorState.createEmpty();
 
+        setState(initState);
+    }, [page]);
+
+    // TODO add loading
     const save = useCallback(() => {
-        const res = JSON.stringify(convertToRaw(state.getCurrentContent()));
-        setOpen(true);
-    }, [])
+        const content = JSON.stringify(convertToRaw(state.getCurrentContent()));
+        savePage(id ?? '', content).finally(() => setOpen(true));
+    }, [id, savePage, state])
 
     const onContentStateChange = (contentState: EditorState) => {
         setState(contentState);
     };
 
-    const handleClose = useCallback((event: SyntheticEvent | Event, reason?: string)=> {
+    const handleClose = useCallback((event: SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
 
         setOpen(false);
     }, [])
+
+    if (!page) {
+        return null;
+    }
 
     return <Fragment>
         <Snackbar
@@ -63,7 +60,6 @@ export const ContentEditor: FC = () => {
             editorClassName="editorClassName editor"
             editorState={state}
             onEditorStateChange={onContentStateChange}
-            onContentStateChange={setContentState}
         />
         <Button
             type="button"
@@ -72,8 +68,7 @@ export const ContentEditor: FC = () => {
             sx={{mt: 2}}
             size="large"
         >
-           Зберегти
+            Зберегти
         </Button>
-        <div dangerouslySetInnerHTML={{__html: draftToHtml(contentState)}}/>
     </Fragment>
 }
