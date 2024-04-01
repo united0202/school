@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import {
 	getAuth,
 } from 'firebase/auth';
-import { initializeFirestore } from "firebase/firestore";
+import { initializeFirestore, persistentLocalCache,persistentMultipleTabManager } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -16,6 +16,15 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const db = initializeFirestore(app, {experimentalForceLongPolling: true});
+export const db = initializeFirestore(app,  {
+	localCache: persistentLocalCache({
+		tabManager: persistentMultipleTabManager(),
+	}),
+	experimentalAutoDetectLongPolling: true,
+	experimentalLongPollingOptions: {
+		timeoutSeconds: 30,
+	},
+});
+// export const db = initializeFirestore(app, {experimentalForceLongPolling: true});
 export const auth = getAuth();
 export const storage = getStorage();

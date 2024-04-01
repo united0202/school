@@ -99,6 +99,7 @@ export const ContentEditor: FC = () => {
 			anchorOrigin={{vertical: 'top', horizontal: 'right'}}
 		/>
 		<Grid container spacing={2}>
+
 			<Grid item xs={6}>
 				<Card sx={{p: 2, mb: 5}}>
 					<Typography sx={{mb: 2}} textAlign="center" variant="h5">Вибрати медіа файл:</Typography>
@@ -132,6 +133,16 @@ export const ContentEditor: FC = () => {
 					/>
 				</Card>
 			</Grid>
+			<Button
+				fullWidth
+				type="button"
+				variant="contained"
+				onClick={save}
+				sx={{mt: 2}}
+				size="large"
+			>
+				Зберегти
+			</Button>
 		</Grid>
 
 		<Card sx={{p: 2}}>
@@ -145,14 +156,5 @@ export const ContentEditor: FC = () => {
 				onEditorStateChange={onContentStateChange}
 			/>
 		</Card>
-		<Button
-			type="button"
-			variant="contained"
-			onClick={save}
-			sx={{mt: 2}}
-			size="large"
-		>
-			Зберегти
-		</Button>
 	</Fragment>
 }

@@ -1,6 +1,5 @@
 import React, { FC, Fragment, useContext } from "react";
 import { Button, Collapse, Divider, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { usePages } from "../../hooks/usePages";
 import { TPageType } from "../../types";
 import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
