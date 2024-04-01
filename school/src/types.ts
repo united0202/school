@@ -19,3 +19,15 @@ export type TPageType =
     'transparency' |
     'annual-plan' |
     'psychologist';
+
+export interface IPage {
+	title: string;
+	id: TPageType;
+	subpages?: IPage[];
+	order: number;
+	content: string;
+	isSubpage: boolean;
+	image?: string;
+}
+
+

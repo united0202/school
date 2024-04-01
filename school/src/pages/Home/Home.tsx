@@ -1,7 +1,7 @@
-import {FC} from "react";
-import {usePage} from "../../hooks/usePage";
-import {RawDraftContentState} from "draft-js";
+import React, { FC } from "react";
+import { usePage } from "../../hooks/usePage";
 import draftToHtml from "draftjs-to-html";
+import { Card, CardMedia} from "@mui/material";
 
 export const Home: FC = () => {
 	const {getPage} = usePage();
@@ -11,7 +11,13 @@ export const Home: FC = () => {
 		return null;
 	}
 
-	const content: RawDraftContentState = JSON.parse(page.content);
-
-	return <div dangerouslySetInnerHTML={{__html: draftToHtml(content)}}/>
+	return <Card sx={{p: 2, mb: 5}}>
+		{page.image  && <CardMedia
+			style={{maxHeight: 500, borderRadius: '10px'}}
+			component="img"
+			alt={page.title}
+			image={page.image}
+		/>}
+		<div dangerouslySetInnerHTML={{__html: draftToHtml(JSON.parse(page.content))}}/>
+	</Card>
 }

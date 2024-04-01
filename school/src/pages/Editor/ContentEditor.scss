@@ -2,3 +2,18 @@
   border: 1px solid #F1F1F1;
   min-height: 300px;
 }
+
+.preview {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

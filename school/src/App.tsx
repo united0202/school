@@ -1,68 +1,72 @@
 import './App.scss';
 
-import React, {FC, useCallback, useMemo, useState} from 'react';
-import {Header} from "./components/Header/Header";
-import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
-import {Content} from "./components/Content/Content";
-import {Sidebar} from "./components/Sidebar/Sidebar";
-import {BrowserRouter, createRoutesFromElements, Outlet, Route, Routes} from "react-router-dom";
-import {AuthProvider} from "./context/AuthContext";
-import {Home} from "./pages/Home/Home";
+import React, { FC, useCallback, useMemo, useState } from 'react';
+import { Header } from "./components/Header/Header";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { Content } from "./components/Content/Content";
+import { Sidebar } from "./components/Sidebar/Sidebar";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import { PagesProvider } from "./context/PagesContext";
+import ScrollToTop from "react-scroll-to-top";
 
 export const ColorModeContext = React.createContext({
-    toggleColorMode: () => {
-    }
+	toggleColorMode: () => {
+	}
 });
 
 export type TColorMode = 'light' | 'dark';
 
 export const App: FC = () => {
-    const [mode, setMode] = useState<TColorMode>('light')
-    const [open, setOpen] = useState(false)
+	const [mode, setMode] = useState<TColorMode>('light')
+	const [open, setOpen] = useState(false)
 
-    const theme = useMemo(
-        () =>
-            createTheme({
-                palette: {
-                    mode,
-                },
-            }),
-        [mode],
-    );
+	const theme = useMemo(
+		() =>
+			createTheme({
+				palette: {
+					mode,
+				},
+			}),
+		[mode],
+	);
 
-    const colorMode = useMemo(
-        () => ({
-            toggleColorMode: () => {
-                setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-            },
-        }),
-        [],
-    );
+	const colorMode = useMemo(
+		() => ({
+			toggleColorMode: () => {
+				setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+			},
+		}),
+		[],
+	);
 
-    const handleIsOpenChanged = useCallback(
-        (isOpen: boolean) => {
-            setOpen(isOpen);
-        },
-        []
-    );
+	const handleIsOpenChanged = useCallback(
+		(isOpen: boolean) => {
+			setOpen(isOpen);
+		},
+		[]
+	);
 
-    return (
-        <BrowserRouter>
-            <AuthProvider>
-                <ColorModeContext.Provider value={colorMode}>
-                    <ThemeProvider theme={theme}>
-                        <CssBaseline/>
-                        <div className="App">
-                            <Sidebar onOpen={handleIsOpenChanged} isOpen={open}/>
-                            <Header
-                                isOpen={open}
-                                onOpen={handleIsOpenChanged}
-                            />
-                            <Content isOpen={open}/>
-                        </div>
-                    </ThemeProvider>
-                </ColorModeContext.Provider>
-            </AuthProvider>
-        </BrowserRouter>
-    );
+	return (
+		<BrowserRouter>
+			<PagesProvider>
+				<AuthProvider>
+					<ColorModeContext.Provider value={colorMode}>
+						<ThemeProvider theme={theme}>
+							<CssBaseline/>
+							<div className="App">
+								<Sidebar onOpen={handleIsOpenChanged} isOpen={open}/>
+								<Header
+									isOpen={open}
+									onOpen={handleIsOpenChanged}
+								/>
+								<Content isOpen={open}/>
+								<ScrollToTop color="#fff" style={{backgroundColor: "#1976d2"}} smooth/>
+							</div>
+						</ThemeProvider>
+					</ColorModeContext.Provider>
+				</AuthProvider>
+			</PagesProvider>
+		</BrowserRouter>
+	);
 }
